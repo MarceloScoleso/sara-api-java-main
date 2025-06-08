@@ -44,68 +44,19 @@ cd projeto-sara
 
 ---
 
-## ☁️ Como rodar o Projeto SARA na Nuvem
+### 2. Acesso à API e documentação
 
-Esta seção traz um guia básico para implantar o projeto SARA em ambientes de nuvem usando containers Docker, facilitando a escalabilidade, portabilidade e gerenciamento da aplicação.
----
-### 1. Pré-requisitos para deploy em nuvem
+A API estará disponível em:  
+http://localhost:8080/api
 
-- Conta em um provedor de nuvem (AWS, Azure, Google Cloud, etc)
-
-- Ambiente com Docker e Docker Compose instalados
-
-- Configuração de firewall para liberar portas da aplicação (8080) e do banco (1521)
-
-- Registro de imagem Docker (Docker Hub, AWS ECR, Azure Container Registry, Google Container Registry)
-
-### 2. Gerar a imagem Docker da aplicação
-
-No diretório do projeto, construa sua imagem:
----
-docker build -t seu_usuario/projeto-sara-api-java:latest .
-Faça login no Docker Hub (ou registro escolhido):
-
-docker login
-
-Envie a imagem para o repositório remoto:
-
-docker push seu_usuario/projeto-sara-api-java:latest
-
-### 3. Subir os containers em nuvem
-
-Acesse sua VM ou serviço gerenciado com Docker e rode:
----
-docker-compose up -d
-Verifique os containers ativos:
-
-docker ps
-Visualize os logs:
-
-docker-compose logs -f
-
-### 4. Configurações adicionais
-
-- Variáveis de ambiente: Configure credenciais e parâmetros sensíveis usando secrets do provedor ou variáveis de ambiente no serviço gerenciado
-
-- Banco de dados: Para produção, considere banco Oracle gerenciado pelo provedor ou cluster com backup automático
-
-- Domínio e HTTPS: Configure DNS e certificados SSL (via Let's Encrypt ou serviço da nuvem) para acesso seguro à API
-
-- Escalabilidade: Utilize orquestradores como Kubernetes (EKS, AKS, GKE) para maior controle e escalonamento automático
-
-### 5. Acesso à API na nuvem
-
-Após subir os containers, acesse:
-
-
-http://<IP-ou-DOMINIO-da-VM-ou-servico>:8080/api
-Swagger disponível em:
-http://<IP-ou-DOMINIO-da-VM-ou-servico>:8080/swagger-ui/index.html
+Documentação Swagger UI disponível em:  
+http://localhost:8080/swagger-ui.html  
+ou  
+http://localhost:8080/swagger-ui/index.html
 
 ---
 
-
-## 🔐 Autenticação 
+## 🔐 Autenticação
 
 A API utiliza autenticação via JWT. Para obter um token válido, envie um POST para:
 
@@ -118,110 +69,6 @@ POST /api/auth/login
 }
 
 Authorization: Bearer <token>
-
-## 📄 Exemplo de uso da API – Tipo de Usuário
-
-### 🔍 Buscar por ID
-
-GET /api/tipos-usuario/{id}
-
-### 🔁 Atualizar
-
-PUT /api/tipos-usuario/{id}
-
-{
-  "codigo": "ADMINISTRADOR",
-  "descricao": "Administrador do programa"
-}
-
-### 🗑️ Deletar
-
-DELETE /api/tipos-usuario/{id}
-
-### 📋 Listar todos
-
-GET /api/tipos-usuario
-
-### ➕ Criar
-
-POST /api/tipos-usuario
-{
-  "codigo": "USUARIO",
-  "descricao": "Usuáriocom permissões limitadas"
-}
-
-### 🔢 Contagem total
-
-GET /api/tipos-usuario/count
-
-### 🔍 Buscar por código
-
-GET /api/tipos-usuario/codigo/ADMIN
-
-
-## 👤 Exemplo de uso da API – Usuário
-
-### 🔍 Buscar por ID
-
-GET /api/usuarios/{id}
-
-### 🔁 Atualizar
-
-PUT /api/usuarios/{id}
-
-{
-  "nome": "Marcelo Rogério",
-  "email": "marceloroger@gmail.com",
-  "senha": "markroger",
-  "cpf": "12345678910",
-  "tipoUsuario": {
-    "id": 2
-  }
-}
-
-### 🗑️ Deletar
-
-DELETE /api/usuarios/{id}
-
-### 📋 Listar todos
-
-GET /api/usuarios
-
-### ➕ Criar
-
-POST /api/usuarios
-
-{
-  "nome": "Mariana Siqueira",
-  "email": "marianasiq@gmail.com",
-  "senha": "MariaSiq",
-  "cpf": "98765432220",
-  "tipoUsuario": {
-    "id": 1
-  }
-}
-
-### 🔍 Buscar por e-mail
-
-GET /api/usuarios/email/marianasiq@gmail.com
-
-### 🔢 Contagem total
-
-GET /api/usuarios/count
-
----
-## 📸 Evidências da Execução
-
-### ✅ Execução dos containers em segundo plano (`docker-compose up -d`)
-![docker-compose up](prints/Evidencia1.PNG)
-
-### ✅ Comando `docker ps` exibindo os containers em execução
-![docker ps](prints/evidencia2.PNG)
-
-### ✅ Logs dos containers (`docker logs <nome_container>`)
-![docker logs sara-api](prints/evidencia3.PNG)
-![docker logs oracle-db](prints/evidencia4.PNG)
-
 
 ---
 
